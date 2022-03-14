@@ -12,13 +12,13 @@ import 'package:shopping_cart/shared_kernels/entities/base_failure.dart';
 
 
 class RemoveFromCartService implements RemoveFromCartUseCase {
-  final RemoveFromCartAPIPort removeFromCartAPIPort;
+  final RemoveFromCartAPIPort? removeFromCartAPIPort;
   final LoadCartPort loadCartPort;
   final UpdateCartStatePort updateCartStatePort;
   final NetworkCheckPort networkCheckPort;
 
   RemoveFromCartService(
-      {required this.removeFromCartAPIPort,
+      {this.removeFromCartAPIPort,
       required this.loadCartPort,
       required this.networkCheckPort,
       required this.updateCartStatePort});
@@ -34,7 +34,7 @@ class RemoveFromCartService implements RemoveFromCartUseCase {
   Future<Result<Failure, void>> _removeFromCart(int productId) async {
     Cart cart = await loadCartPort.loadCart()
       ..removeFromCart(productId);
-    removeFromCartAPIPort.removeFromCart(productId);
+    await removeFromCartAPIPort?.removeFromCart(productId);
     updateCartStatePort.updateCartState(cart);
     return Result.success();
   }

@@ -15,13 +15,13 @@ class AddToCartService implements AddToCartUseCase {
   final NetworkCheckPort networkCheckPort;
   final LoadCartPort loadCartPort;
   final UpdateCartStatePort updateCartStatePort;
-  final AddToCartAPIPort addToCartAPIPort;
+  final AddToCartAPIPort? addToCartAPIPort;
 
   AddToCartService({
     required this.networkCheckPort,
     required this.loadCartPort,
     required this.updateCartStatePort,
-    required this.addToCartAPIPort,
+    this.addToCartAPIPort,
   });
 
   @override
@@ -34,7 +34,7 @@ class AddToCartService implements AddToCartUseCase {
 
   Future<Result<Failure, void>> _addToCart(Product product) async {
     Cart cart = (await loadCartPort.loadCart())..addToCart(product);
-    await addToCartAPIPort.addToCart(product);
+    await addToCartAPIPort?.addToCart(product);
     await updateCartStatePort.updateCartState(cart);
     return Result.success();
   }

@@ -8,12 +8,12 @@ import 'package:shopping_cart/shared_kernels/entities/failure.dart';
 import 'package:shopping_cart/shared_kernels/entities/result.dart';
 
 class EmptyCartService implements EmptyCartUseCase {
-  final EmptyCartAPIPort emptyCartAPIPort;
+  final EmptyCartAPIPort? emptyCartAPIPort;
   final NetworkCheckPort networkCheckPort;
   final UpdateCartStatePort updateCartStatePort;
 
   EmptyCartService({
-    required this.emptyCartAPIPort,
+    this.emptyCartAPIPort,
     required this.networkCheckPort,
     required this.updateCartStatePort,
   });
@@ -27,7 +27,7 @@ class EmptyCartService implements EmptyCartUseCase {
   }
 
   Future<Result<Failure, void>> _emptyCart() async {
-    await emptyCartAPIPort.emptyCart();
+    await emptyCartAPIPort?.emptyCart();
     updateCartStatePort.updateCartState(Cart());
     return Result.success();
   }
