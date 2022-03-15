@@ -4,8 +4,10 @@ import 'package:shopping_cart/domain/product.dart';
 class Cart {
   late Map<int, CartItem> _items;
 
-  Cart ({List<CartItem> items = const<CartItem> []}) {
-    _items = <int, CartItem> {};
+  Cart({List<CartItem> items = const <CartItem>[]}) {
+    _items = <int, CartItem> {
+      for (var element in items) element.product.id: element
+    };
   }
 
   void addToCart(Product product) {
@@ -39,6 +41,6 @@ class Cart {
   bool operator ==(Object other) {
     if (other is! Cart) return false;
     if (items.length != other.items.length) return false;
-    return ! items.any((element) => ! other.items.contains(element));
+    return !items.any((element) => !other.items.contains(element));
   }
 }

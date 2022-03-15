@@ -6,9 +6,9 @@ import 'package:shopping_cart/application/ports/out/persistence/update_cart_stat
 
 import 'package:shopping_cart/domain/cart.dart';
 
-import 'package:shopping_cart/shared_kernels/entities/result.dart';
-import 'package:shopping_cart/shared_kernels/entities/failure.dart';
-import 'package:shopping_cart/shared_kernels/entities/base_failure.dart';
+import 'package:shopping_cart/common/entities/result.dart';
+import 'package:shopping_cart/common/entities/failure.dart';
+import 'package:shopping_cart/common/entities/base_failure.dart';
 
 class DeleteFromCartService implements DeleteFromCartUseCase {
   final LoadCartPort loadCartPort;

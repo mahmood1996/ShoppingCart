@@ -1,4 +1,4 @@
-import 'package:shopping_cart/shared_kernels/entities/failure.dart';
+import 'package:shopping_cart/common/entities/failure.dart';
 
 enum FailureType {network, server, other}
 

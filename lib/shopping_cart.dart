@@ -22,11 +22,12 @@ export 'package:shopping_cart/application/ports/out/persistence/update_cart_stat
 export 'package:shopping_cart/application/ports/out/platform/network_check_port.dart';
 
 /// entities
-export 'package:shopping_cart/shared_kernels/entities/failure.dart';
-export 'package:shopping_cart/shared_kernels/entities/base_failure.dart';
-export 'package:shopping_cart/shared_kernels/entities/result.dart';
+export 'package:shopping_cart/common/entities/failure.dart';
+export 'package:shopping_cart/common/entities/base_failure.dart';
+export 'package:shopping_cart/common/entities/result.dart';
 
 /// domain
 export 'package:shopping_cart/domain/cart.dart';
 export 'package:shopping_cart/domain/cart_item.dart';
 export 'package:shopping_cart/domain/product.dart';
+

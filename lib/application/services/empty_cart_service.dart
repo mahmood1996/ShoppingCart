@@ -3,9 +3,9 @@ import 'package:shopping_cart/application/ports/out/api/empty_cart_api_port.dart
 import 'package:shopping_cart/application/ports/out/persistence/update_cart_state_port.dart';
 import 'package:shopping_cart/application/ports/out/platform/network_check_port.dart';
 import 'package:shopping_cart/domain/cart.dart';
-import 'package:shopping_cart/shared_kernels/entities/base_failure.dart';
-import 'package:shopping_cart/shared_kernels/entities/failure.dart';
-import 'package:shopping_cart/shared_kernels/entities/result.dart';
+import 'package:shopping_cart/common/entities/base_failure.dart';
+import 'package:shopping_cart/common/entities/failure.dart';
+import 'package:shopping_cart/common/entities/result.dart';
 
 class EmptyCartService implements EmptyCartUseCase {
   final EmptyCartAPIPort? emptyCartAPIPort;

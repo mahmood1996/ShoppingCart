@@ -1,5 +1,5 @@
-import 'package:flutter_test/flutter_test.dart';
+import 'unit_tests/cart_test.dart';
 
 void main() {
-
+  CartTest.runAll();
 }

@@ -1,18 +1,13 @@
-class Product {
-  final int id;
-  final double price;
-
-  const Product({
-    required this.id,
-    required this.price,
-  });
+abstract class Product {
+  int    get id;
+  double get totalPrice;
 
   @override
-  int get hashCode => Object.hash(id, price);
+  int get hashCode => Object.hash(id, totalPrice);
 
   @override
   bool operator ==(Object other) {
     if (other is! Product) return false;
-    return id == other.id && price == other.price;
+    return id == other.id && totalPrice == other.totalPrice;
   }
 }
