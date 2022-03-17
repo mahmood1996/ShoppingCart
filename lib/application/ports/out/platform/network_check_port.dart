@@ -1,3 +1,3 @@
 abstract class NetworkCheckPort {
-  Future<bool> get isConnected;
+  Future<bool>? get isConnected;
 }

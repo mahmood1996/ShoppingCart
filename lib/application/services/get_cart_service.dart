@@ -19,7 +19,7 @@ class GetCartService implements GetCartUseCase {
 
   @override
   Future<Result<Failure, Cart>> getCart() async {
-    if (!await networkCheckPort.isConnected) {
+    if (!await networkCheckPort.isConnected!) {
       return Result.failure(BaseFailure(type: FailureType.network));
     }
 
@@ -27,7 +27,7 @@ class GetCartService implements GetCartUseCase {
   }
 
   Future<Result<Failure, Cart>> _getCart() async {
-    Cart cart = await getCartAPIPort.getCart();
+    Cart cart = await getCartAPIPort.getCart()!;
     await updateCartStatePort.updateCartState(cart);
     return Result.success(cart);
   }

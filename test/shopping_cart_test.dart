@@ -1,5 +1,5 @@
-import 'unit_tests/cart_test.dart';
+import 'unit_tests/main_unit_test.dart';
 
 void main() {
-  CartTest.runAll();
+  MainUnitTests.runAll();
 }

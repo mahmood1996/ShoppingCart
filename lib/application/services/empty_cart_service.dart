@@ -20,7 +20,7 @@ class EmptyCartService implements EmptyCartUseCase {
 
   @override
   Future<Result<Failure, void>> emptyCart() async {
-    if (! await networkCheckPort.isConnected) {
+    if (! await networkCheckPort.isConnected!) {
       return Result.failure(BaseFailure(type: FailureType.network));
     }
     return await _emptyCart();

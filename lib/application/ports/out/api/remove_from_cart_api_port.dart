@@ -1,3 +1,3 @@
 abstract class RemoveFromCartAPIPort {
-  Future<void> removeFromCart(int productId);
+  Future<void>? removeFromCart(int productId);
 }

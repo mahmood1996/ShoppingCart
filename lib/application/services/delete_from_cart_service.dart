@@ -25,14 +25,14 @@ class DeleteFromCartService implements DeleteFromCartUseCase {
 
   @override
   Future<Result<Failure, void>> deleteFromCart(int productId) async {
-    if (! await networkCheckPort.isConnected){
+    if (! await networkCheckPort.isConnected!){
       return Result.failure(BaseFailure(type: FailureType.network));
     }
     return await _deleteFromCart(productId);
   }
 
   Future<Result<Failure, void>> _deleteFromCart(int productId) async {
-    Cart cart = (await loadCartPort.loadCart())..deleteFromCart(productId);
+    Cart cart = (await loadCartPort.loadCart()!)..deleteFromCart(productId);
     await deleteFromCartAPIPort?.deleteFromCart(productId);
     updateCartStatePort.updateCartState(cart);
     return Result.success();

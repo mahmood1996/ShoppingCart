@@ -1,3 +1,3 @@
 abstract class EmptyCartAPIPort {
-  Future<void> emptyCart();
+  Future<void>? emptyCart();
 }

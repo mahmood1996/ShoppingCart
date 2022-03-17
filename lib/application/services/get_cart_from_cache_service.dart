@@ -8,6 +8,6 @@ class GetCartFromCacheService implements GetCartFromCacheUseCase {
 
   @override
   Future<Cart> getCart() async {
-    return await loadCartPort.loadCart();
+    return await loadCartPort.loadCart()!;
   }
 }

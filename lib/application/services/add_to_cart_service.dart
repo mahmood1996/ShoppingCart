@@ -3,6 +3,7 @@ import 'package:shopping_cart/application/ports/out/api/add_to_cart_api_port.dar
 import 'package:shopping_cart/application/ports/out/persistence/load_cart_port.dart';
 import 'package:shopping_cart/application/ports/out/platform/network_check_port.dart';
 import 'package:shopping_cart/application/ports/out/persistence/update_cart_state_port.dart';
+import 'package:shopping_cart/common/exceptions/domain_exception.dart';
 
 import 'package:shopping_cart/domain/cart.dart';
 import 'package:shopping_cart/domain/product.dart';
@@ -26,15 +27,23 @@ class AddToCartService implements AddToCartUseCase {
 
   @override
   Future<Result<Failure, void>> addToCart(Product product) async {
-    if (!await networkCheckPort.isConnected) {
+    if (!await networkCheckPort.isConnected!) {
       return Result.failure(BaseFailure(type: FailureType.network));
     }
     return await _addToCart(product);
   }
 
   Future<Result<Failure, void>> _addToCart(Product product) async {
-    Cart cart = (await loadCartPort.loadCart())..addToCart(product);
+    try {
+      return await _addProductToCart(product);
+    } on DomainException catch(exception) {
+      return Result.failure(BaseFailure(type: exception.failureType));
+    }
+  }
+
+  Future<Result<Failure, void>> _addProductToCart(Product product) async {
     await addToCartAPIPort?.addToCart(product);
+    Cart cart = (await loadCartPort.loadCart())!..addToCart(product);
     await updateCartStatePort.updateCartState(cart);
     return Result.success();
   }

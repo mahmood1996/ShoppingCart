@@ -19,7 +19,7 @@ class _FakeProduct extends Product {
 class CartTest {
 
   static void runAll() {
-    group("cart-tests", () {
+    group("--Cart-'Domain Model'--Tests--", () {
       _testAddToCart();
       _testRemoveFromCart();
       _testDeleteFromCart();
@@ -27,7 +27,7 @@ class CartTest {
   }
 
   static void _testAddToCart() {
-    test("add-to-cart-test", () {
+    test("add-to-cart", () {
       Cart cart = Cart();
 
       cart.addToCart(_FakeProduct());
@@ -45,7 +45,7 @@ class CartTest {
   }
 
   static void _testRemoveFromCart() {
-    test("remove-from-cart-test", () {
+    test("remove-from-cart", () {
       Cart cart = Cart();
 
       cart.addToCart(_FakeProduct());
@@ -65,7 +65,7 @@ class CartTest {
   }
 
   static void _testDeleteFromCart() {
-    test("delete-from-cart-test", () {
+    test("delete-from-cart", () {
       Cart cart = Cart();
 
       cart.addToCart(_FakeProduct());
