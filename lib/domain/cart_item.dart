@@ -9,11 +9,14 @@ class CartItem {
     this.quantity = 1,
   });
 
+  double get total => product.totalPrice * quantity;
+
   @override
   int get hashCode => Object.hash(product, quantity);
 
   @override
   bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     if (other is! CartItem) return false;
     return quantity == other.quantity && product == other.product;
   }

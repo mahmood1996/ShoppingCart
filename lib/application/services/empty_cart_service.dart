@@ -1,21 +1,16 @@
-import 'package:shopping_cart/application/ports/in/empty_cart_usecase.dart';
-import 'package:shopping_cart/application/ports/out/api/empty_cart_api_port.dart';
-import 'package:shopping_cart/application/ports/out/persistence/update_cart_state_port.dart';
-import 'package:shopping_cart/application/ports/out/platform/network_check_port.dart';
-import 'package:shopping_cart/domain/cart.dart';
-import 'package:shopping_cart/common/entities/base_failure.dart';
-import 'package:shopping_cart/common/entities/failure.dart';
-import 'package:shopping_cart/common/entities/result.dart';
+import 'package:shopping_cart/shopping_cart.dart';
 
 class EmptyCartService implements EmptyCartUseCase {
-  final EmptyCartAPIPort? emptyCartAPIPort;
+  final EmptyCartAPIPort emptyCartAPIPort;
   final NetworkCheckPort networkCheckPort;
   final UpdateCartStatePort updateCartStatePort;
+  final CartChangeListenerPort cartChangeListenerPort;
 
   EmptyCartService({
-    this.emptyCartAPIPort,
+    required this.emptyCartAPIPort,
     required this.networkCheckPort,
     required this.updateCartStatePort,
+    required this.cartChangeListenerPort,
   });
 
   @override
@@ -27,8 +22,9 @@ class EmptyCartService implements EmptyCartUseCase {
   }
 
   Future<Result<Failure, void>> _emptyCart() async {
-    await emptyCartAPIPort?.emptyCart();
+    await emptyCartAPIPort.emptyCart();
     updateCartStatePort.updateCartState(Cart());
+    cartChangeListenerPort.listen(Cart());
     return Result.success();
   }
 }

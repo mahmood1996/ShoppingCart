@@ -7,7 +7,7 @@ class _FakeProduct extends Product {
   final int fakeId;
   final double fakePrice;
 
-  _FakeProduct({this.fakeId = 0, this.fakePrice = 100});
+  _FakeProduct({this.fakeId = 0, this.fakePrice = 100}) : super(id: fakeId, totalPrice: fakePrice);
 
   @override
   int get id => fakeId;

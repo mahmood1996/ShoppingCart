@@ -1,27 +1,19 @@
-import 'package:shopping_cart/application/ports/in/remove_from_cart_usecase.dart';
-import 'package:shopping_cart/application/ports/out/api/remove_from_cart_api_port.dart';
-import 'package:shopping_cart/application/ports/out/persistence/load_cart_port.dart';
-import 'package:shopping_cart/application/ports/out/platform/network_check_port.dart';
-import 'package:shopping_cart/application/ports/out/persistence/update_cart_state_port.dart';
-
-import 'package:shopping_cart/domain/cart.dart';
-
-import 'package:shopping_cart/common/entities/result.dart';
-import 'package:shopping_cart/common/entities/failure.dart';
-import 'package:shopping_cart/common/entities/base_failure.dart';
-
+import 'package:shopping_cart/shopping_cart.dart';
 
 class RemoveFromCartService implements RemoveFromCartUseCase {
-  final RemoveFromCartAPIPort? removeFromCartAPIPort;
+  final RemoveFromCartAPIPort removeFromCartAPIPort;
   final LoadCartPort loadCartPort;
   final UpdateCartStatePort updateCartStatePort;
   final NetworkCheckPort networkCheckPort;
+  final CartChangeListenerPort cartChangeListenerPort;
 
-  RemoveFromCartService(
-      {this.removeFromCartAPIPort,
-      required this.loadCartPort,
-      required this.networkCheckPort,
-      required this.updateCartStatePort});
+  RemoveFromCartService({
+    required this.removeFromCartAPIPort,
+    required this.loadCartPort,
+    required this.networkCheckPort,
+    required this.updateCartStatePort,
+    required this.cartChangeListenerPort,
+  });
 
   @override
   Future<Result<Failure, void>> removeFromCart(int productId) async {
@@ -32,10 +24,11 @@ class RemoveFromCartService implements RemoveFromCartUseCase {
   }
 
   Future<Result<Failure, void>> _removeFromCart(int productId) async {
+    await removeFromCartAPIPort.removeFromCart(productId);
     Cart cart = await loadCartPort.loadCart()!
       ..removeFromCart(productId);
-    await removeFromCartAPIPort?.removeFromCart(productId);
     updateCartStatePort.updateCartState(cart);
+    cartChangeListenerPort.listen(cart);
     return Result.success();
   }
 }

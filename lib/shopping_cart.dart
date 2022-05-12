@@ -21,6 +21,16 @@ export 'package:shopping_cart/application/ports/out/persistence/update_cart_stat
 /// network
 export 'package:shopping_cart/application/ports/out/platform/network_check_port.dart';
 
+/// API
+export 'package:shopping_cart/application/ports/out/api/add_to_cart_api_port.dart';
+export 'package:shopping_cart/application/ports/out/api/remove_from_cart_api_port.dart';
+export 'package:shopping_cart/application/ports/out/api/delete_from_cart_api_port.dart';
+export 'package:shopping_cart/application/ports/out/api/get_cart_api_port.dart';
+export 'package:shopping_cart/application/ports/out/api/empty_cart_api_port.dart';
+
+/// Cart Change Listener
+export 'package:shopping_cart/application/ports/out/change_listener/cart_change_listener_port.dart';
+
 /// entities
 export 'package:shopping_cart/common/entities/failure.dart';
 export 'package:shopping_cart/common/entities/base_failure.dart';
@@ -30,4 +40,7 @@ export 'package:shopping_cart/common/entities/result.dart';
 export 'package:shopping_cart/domain/cart.dart';
 export 'package:shopping_cart/domain/cart_item.dart';
 export 'package:shopping_cart/domain/product.dart';
+
+/// exceptions
+export 'package:shopping_cart/common/exceptions/domain_exception.dart';
 

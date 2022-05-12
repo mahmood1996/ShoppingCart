@@ -33,3 +33,9 @@ class CartRepository implements LoadCartPort, UpdateCartStatePort {
     return await _cartBox.put("data", json.encode(_cartMapper.encode(cart)));
   }
 }
+
+/// loadCart       -> onCartChange
+/// addToCart      -> onCartChange
+/// removeFromCart -> onCartChange
+/// deleteFromCart -> onCartChange
+/// emptyCart      -> onCartChange

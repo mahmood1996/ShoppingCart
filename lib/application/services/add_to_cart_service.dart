@@ -1,28 +1,19 @@
-import 'package:shopping_cart/application/ports/in/add_to_cart_usecase.dart';
-import 'package:shopping_cart/application/ports/out/api/add_to_cart_api_port.dart';
-import 'package:shopping_cart/application/ports/out/persistence/load_cart_port.dart';
-import 'package:shopping_cart/application/ports/out/platform/network_check_port.dart';
-import 'package:shopping_cart/application/ports/out/persistence/update_cart_state_port.dart';
-import 'package:shopping_cart/common/exceptions/domain_exception.dart';
-
-import 'package:shopping_cart/domain/cart.dart';
-import 'package:shopping_cart/domain/product.dart';
-
-import 'package:shopping_cart/common/entities/result.dart';
-import 'package:shopping_cart/common/entities/failure.dart';
-import 'package:shopping_cart/common/entities/base_failure.dart';
+import 'package:shopping_cart/application/ports/out/change_listener/cart_change_listener_port.dart';
+import 'package:shopping_cart/shopping_cart.dart';
 
 class AddToCartService implements AddToCartUseCase {
   final NetworkCheckPort networkCheckPort;
   final LoadCartPort loadCartPort;
   final UpdateCartStatePort updateCartStatePort;
-  final AddToCartAPIPort? addToCartAPIPort;
+  final AddToCartAPIPort addToCartAPIPort;
+  final CartChangeListenerPort cartChangeListenerPort;
 
   AddToCartService({
     required this.networkCheckPort,
     required this.loadCartPort,
     required this.updateCartStatePort,
-    this.addToCartAPIPort,
+    required this.addToCartAPIPort,
+    required this.cartChangeListenerPort,
   });
 
   @override
@@ -42,9 +33,10 @@ class AddToCartService implements AddToCartUseCase {
   }
 
   Future<Result<Failure, void>> _addProductToCart(Product product) async {
-    await addToCartAPIPort?.addToCart(product);
+    await addToCartAPIPort.addToCart(product);
     Cart cart = (await loadCartPort.loadCart())!..addToCart(product);
     await updateCartStatePort.updateCartState(cart);
+    cartChangeListenerPort.listen(cart);
     return Result.success();
   }
 }

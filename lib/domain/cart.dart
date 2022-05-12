@@ -5,7 +5,7 @@ class Cart {
   late Map<int, CartItem> _items;
 
   Cart({List<CartItem> items = const <CartItem>[]}) {
-    _items = <int, CartItem> {
+    _items = <int, CartItem>{
       for (var element in items) element.product.id: element
     };
   }
@@ -31,14 +31,21 @@ class Cart {
   }
 
   List<CartItem> get items => List.unmodifiable(_items.values);
-  int get count => _items.values
-      .reduce((value, element) => CartItem(
-          product: element.product,
-          quantity: value.quantity + element.quantity))
-      .quantity;
+
+  int get count => items
+      .map<int>((element) => element.quantity)
+      .reduce((value, element) => value + element);
+
+  double get total => items
+      .map<double>((element) => element.total)
+      .reduce((value, element) => value + element);
+
+  @override
+  int get hashCode => Object.hashAll([_items]);
 
   @override
   bool operator ==(Object other) {
+    if (identical(this, other)) return true;
     if (other is! Cart) return false;
     if (items.length != other.items.length) return false;
     return !items.any((element) => !other.items.contains(element));

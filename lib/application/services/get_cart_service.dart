@@ -6,29 +6,33 @@ import 'package:shopping_cart/domain/cart.dart';
 import 'package:shopping_cart/common/entities/base_failure.dart';
 import 'package:shopping_cart/common/entities/failure.dart';
 import 'package:shopping_cart/common/entities/result.dart';
+import 'package:shopping_cart/shopping_cart.dart';
 
 class GetCartService implements GetCartUseCase {
   final UpdateCartStatePort updateCartStatePort;
   final NetworkCheckPort networkCheckPort;
   final GetCartAPIPort getCartAPIPort;
+  final CartChangeListenerPort cartChangeListenerPort;
 
-  GetCartService(
-      {required this.getCartAPIPort,
-      required this.networkCheckPort,
-      required this.updateCartStatePort});
+  GetCartService({
+    required this.getCartAPIPort,
+    required this.networkCheckPort,
+    required this.updateCartStatePort,
+    required this.cartChangeListenerPort,
+  });
 
   @override
   Future<Result<Failure, Cart>> getCart() async {
     if (!await networkCheckPort.isConnected!) {
       return Result.failure(BaseFailure(type: FailureType.network));
     }
-
     return await _getCart();
   }
 
   Future<Result<Failure, Cart>> _getCart() async {
     Cart cart = await getCartAPIPort.getCart()!;
     await updateCartStatePort.updateCartState(cart);
+    cartChangeListenerPort.listen(cart);
     return Result.success(cart);
   }
 }
